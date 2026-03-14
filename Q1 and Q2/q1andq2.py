@@ -5,7 +5,7 @@ from sklearn.linear_model import RANSACRegressor
 from sklearn.linear_model import LinearRegression
 
 # Load the cropped image
-img = cv.imread(r"D:\Assignment 2\ET3112_Assignment02\1(a).png", cv.IMREAD_GRAYSCALE)
+img = cv.imread(r"D:\Assignment 2\ET3112_Assignment02\1(c).png", cv.IMREAD_GRAYSCALE)
 
 # Display and save original image
 plt.figure()
