@@ -100,3 +100,6 @@ plt.gca().invert_yaxis()
 plt.savefig("q6_tls.png", dpi=300)
 plt.show()
 
+#q7 Estimated angle (TLS)
+theta_tls = np.degrees(np.arctan(m_tls))
+print("Estimated angle (TLS):", theta_tls)
