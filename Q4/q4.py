@@ -61,3 +61,6 @@ plt.gca().invert_yaxis()
 plt.savefig("q3_least_squares.png", dpi=300)
 plt.show()
 
+#q4 Estimated angle (Least Squares)
+theta = np.degrees(np.arctan(m))
+print("Estimated angle (Least Squares):", theta)
