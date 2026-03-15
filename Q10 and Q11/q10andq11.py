@@ -6,7 +6,7 @@ from sklearn.linear_model import LinearRegression
 
 
 # Load cropped crop image
-img = cv.imread(r"D:\Assignment 2\ET3112_Assignment02\1(c).png", 0)   # Fig 1c (grayscale)
+img = cv.imread(r"D:\Assignment 2\ET3112_Assignment02\1C.jpg", 0)   # Fig 1c (grayscale)
 
 
 # Apply Canny edge detection

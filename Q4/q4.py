@@ -1,66 +1,53 @@
 import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.linear_model import RANSACRegressor
 from sklearn.linear_model import LinearRegression
 
 # Load the cropped image
-img = cv.imread(r"D:\Assignment 2\ET3112_Assignment02\1(c).png", cv.IMREAD_GRAYSCALE)
+img = cv.imread(r"D:\Assignment 2\ET3112_Assignment02\1C.jpg", cv.IMREAD_GRAYSCALE)
 
-# Display and save original image
-plt.figure()
-plt.imshow(img, cmap='gray')
-plt.title("Original Image")
-plt.axis('off')
-plt.savefig("original_image.png", dpi=300)
-plt.show()
-
-# Apply Canny Edge Detector
+# Apply Canny edge detector
 edges = cv.Canny(img, 550, 690)
 
-# Display and save edge image
-plt.figure()
-plt.imshow(edges, cmap='gray')
-plt.title("Canny Edge Detection")
-plt.axis('off')
-plt.savefig("canny_edges.png", dpi=300)
-plt.show()
-
 # Extract edge coordinates
-indices = np.where(edges != 0)
+indices = np.where(edges != [0])
 
 x = indices[1]
 y = indices[0]
 
-# Scatter plot
-plt.figure()
-plt.scatter(x, y, s=1)
-plt.title("Scatter Plot of Edge Points")
-plt.xlabel("x")
-plt.ylabel("y")
-plt.gca().invert_yaxis()
+# Reshape x for regression
+x_reshaped = x.reshape(-1,1)
 
-plt.savefig("scatter_plot.png", dpi=300)
-plt.show()
+# Least Squares Regression
+model = LinearRegression()
+model.fit(x_reshaped, y)
 
-# least squares fit
-m, b = np.polyfit(x, y, 1)
+# Get slope and intercept
+m = model.coef_[0]
+c = model.intercept_
 
-# line
-y_fit = m*x + b
+# Calculate crop field angle
+theta_rad = np.arctan(m)
+theta_deg = np.degrees(theta_rad)
+
+print("Slope (m):", m)
+print("Estimated Crop Field Angle (degrees):", theta_deg)
+
+# Plot scatter and fitted line
+y_pred = model.predict(x_reshaped)
 
 plt.figure(figsize=(6,6))
-plt.scatter(x, y, s=1)
-plt.plot(x, y_fit, color='red', linewidth=2)
+plt.scatter(x, y, s=1, label="Edge Points")
 
-plt.title("Least Squares Fit")
+sorted_indices = np.argsort(x)
+plt.plot(x[sorted_indices], y_pred[sorted_indices],
+         color="red", linewidth=2, label="Least Squares Fit")
+
 plt.xlabel("x")
 plt.ylabel("y")
+plt.title("Least Squares Fit with Crop Field Angle")
+plt.legend()
+
 plt.gca().invert_yaxis()
 
-plt.savefig("q3_least_squares.png", dpi=300)
 plt.show()
-
-#q4 Estimated angle (Least Squares)
-theta = np.degrees(np.arctan(m))
-print("Estimated angle (Least Squares):", theta)
