@@ -2,25 +2,31 @@ import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Read image (CHANGE PATH)
-img = cv.imread(r"D:\Assignment 2\ET3112_Assignment02\1C.jpg", cv.IMREAD_GRAYSCALE)
+# Load the cropped image (Fig 1c)
+img = cv.imread("1C.jpg", cv.IMREAD_GRAYSCALE)
 
-if img is None:
-    print("Error: Image not found")
-    exit()
-
-# Canny Edge Detection (MUST USE THESE VALUES)
+# Apply Canny edge detector
 edges = cv.Canny(img, 550, 690)
 
-# Display images
+# Extract edge coordinates (given in the assignment)
+indices = np.where(edges != [0])
+
+x = indices[1]
+y = indices[0]
+
+# Display the images
 plt.figure(figsize=(10,5))
 
+# Original image
 plt.subplot(1,2,1)
-plt.title("Original Image")
 plt.imshow(img, cmap='gray')
+plt.title("Original Image")
+plt.axis("off")
 
+# Edge image
 plt.subplot(1,2,2)
-plt.title("Edge Image")
 plt.imshow(edges, cmap='gray')
+plt.title("Canny Edge Detection")
+plt.axis("off")
 
 plt.show()
